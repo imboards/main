@@ -1132,12 +1132,12 @@
           controlsHtml = `
             <div class="hover-controls" style="flex-direction: column;">
               <div class="score-btns">
-                <button class="btn-minus" onclick="changeScore('${id}', -3)">-3</button>
                 <button class="btn-minus" onclick="changeScore('${id}', -2)">-2</button>
                 <button class="btn-minus" onclick="changeScore('${id}', -1)">-1</button>
+                <button class="btn-minus" onclick="changeScore('${id}', -0.5)">-0.5</button>
+                <button class="btn-plus" onclick="changeScore('${id}', 0.5)">+0.5</button>
                 <button class="btn-plus" onclick="changeScore('${id}', 1)">+1</button>
                 <button class="btn-plus" onclick="changeScore('${id}', 2)">+2</button>
-                <button class="btn-plus" onclick="changeScore('${id}', 3)">+3</button>
               </div>
               <button class="btn-del" onclick="deleteItem('${id}')">${t().deleteBtn}</button>
             </div>`;
