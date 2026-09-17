@@ -12,7 +12,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
     :root {
-      /* Светлая тема (По умолчанию) */
+      /* Светлая тема */
       --bg: #0f172a; 
       --bg-light: #f1f5f9;
       --panel: rgba(255, 255, 255, 0.65);
@@ -127,7 +127,6 @@
       box-shadow: 0 20px 50px -10px rgba(168, 85, 247, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
     }
     
-    /* Эффект подсветки границ при наведении */
     .glass-card:hover::before, .glass-card:hover::after {
       opacity: 1;
     }
@@ -196,7 +195,6 @@
       position: relative; display: flex; flex-direction: column;
     }
     
-    /* Скрытая по умолчанию цветная линия слева */
     .row-item::before { 
       content: ""; position: absolute; left: 0; top: 0; width: 6px; height: 100%; background: var(--accent); 
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; 
@@ -204,12 +202,7 @@
       opacity: 0;
       transform: translateX(-10px);
     }
-    /* Появление линии при наведении */
-    .row-item:hover::before {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    
+    .row-item:hover::before { opacity: 1; transform: translateX(0); }
     .row-item:hover { transform: translateY(-5px) scale(1.01); background: var(--row-hover); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
 
     .rank-gold { background: linear-gradient(135deg, var(--rank-base), rgba(254, 240, 138, 0.4)); border: 1px solid rgba(250, 204, 21, 0.4); box-shadow: 0 10px 30px rgba(234, 179, 8, 0.15); }
@@ -230,6 +223,7 @@
     }
     .row-item:hover .hover-controls { opacity: 1; transform: translateY(0); pointer-events: auto; height: auto; margin-top: 16px; overflow: visible; }
 
+    /* Custom buttons and modals */
     .info-custom { position: absolute; top: 20px; left: 20px; z-index: 1000; }
     .info-btn { 
       width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
@@ -243,52 +237,65 @@
     }
     .info-tooltip.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-    /* Theme & Language Controls Wrapper */
-    .top-controls-wrapper {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 1000;
+    /* Settings Button & Menu */
+    .settings-custom { position: absolute; top: 74px; left: 20px; z-index: 999; }
+    .settings-btn {
+      width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; cursor: pointer; color: var(--accent); border: 1px solid var(--border);
+      padding: 0;
     }
+    .settings-tooltip {
+      position: absolute; top: 0; left: calc(100% + 12px); width: 240px; padding: 12px;
+      transform: translateX(-10px); opacity: 0; transition: all 0.3s ease; pointer-events: none;
+      text-align: left;
+    }
+    .settings-tooltip.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+    
+    .settings-menu-item {
+      padding: 10px 14px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-weight: 500; color: var(--text);
+      display: flex; align-items: center; justify-content: space-between; position: relative;
+    }
+    .settings-menu-item:hover { background: rgba(124, 58, 237, 0.1); color: var(--accent); }
+    
+    /* Цвет фона подменю в светлой теме */
+.settings-submenu {
+  position: absolute; top: -12px; left: calc(100% - 15px); width: 280px; padding: 16px;
+  transform: translateX(-10px); opacity: 0; transition: all 0.3s ease; pointer-events: none;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  background: rgba(255, 255, 255, 0.95); /* нужный цвет для светлой темы */
+}
+
+/* Цвет фона подменю в темной теме */
+html.dark .settings-submenu {
+  background: rgba(30, 41, 59, 0.98);
+}
+    /* pseudo-element to bridge the gap and keep hover active */
+    .settings-submenu::before {
+      content: ""; position: absolute; top: 0; left: -15px; width: 15px; height: 100%;
+    }
+    .settings-menu-item:hover .settings-submenu, .settings-submenu:hover {
+      transform: translateX(0); opacity: 1; pointer-events: auto;
+    }
+
+    /* Theme & Language Controls Wrapper */
+    .top-controls-wrapper { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 12px; z-index: 1000; }
 
     /* Theme Switch */
     .theme-switch {
-      position: relative;
-      width: 56px;
-      height: 32px;
-      border-radius: 30px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      padding: 3px;
-      transition: all 0.4s ease;
-      border: 1px solid var(--border);
+      position: relative; width: 56px; height: 32px; border-radius: 30px; cursor: pointer; display: flex; align-items: center;
+      padding: 3px; transition: all 0.4s ease; border: 1px solid var(--border);
     }
     .theme-thumb {
-      width: 24px;
-      height: 24px;
-      background: white;
-      border-radius: 50%;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s; display: flex; align-items: center; justify-content: center;
     }
-    html.dark .theme-thumb {
-      transform: translateX(24px);
-      background: #1e293b;
-    }
+    html.dark .theme-thumb { transform: translateX(24px); background: #1e293b; }
     .sun-icon { font-size: 13px; color: #f59e0b; transition: all 0.3s ease; position: relative; }
     .moon-icon { font-size: 11px; color: #fde047; position: absolute; opacity: 0; transform: scale(0.5) rotate(-45deg); transition: all 0.3s ease; }
-    
     html.dark .sun-icon { opacity: 0; transform: scale(0.5) rotate(45deg); position: absolute; }
     html.dark .moon-icon { opacity: 1; transform: scale(1) rotate(0deg); position: relative; }
 
-    /* Lang Custom inside Flex Wrapper */
+    /* Lang Custom */
     .lang-custom { position: relative; }
     .lang-trigger { display: flex; align-items: center; padding: 10px 18px; border: 1px solid var(--border); cursor: pointer; font-weight: 600; font-size: 14px; }
     .lang-dropdown { position: absolute; top: calc(100% + 12px); right: 0; width: 180px; padding: 8px; display: none; flex-direction: column; gap: 4px; transform: translateY(-10px); opacity: 0; transition: all 0.3s ease; }
@@ -312,6 +319,17 @@
 
       .info-custom { top: 10px; left: 10px; }
       .info-btn { width: 38px; height: 38px; font-size: 16px; }
+      
+      /* Mobile Settings Styles */
+      .settings-custom { top: 58px; left: 10px; }
+      .settings-btn { width: 38px; height: 38px; font-size: 16px; }
+      .settings-tooltip { top: calc(100% + 12px); left: 0; transform: translateY(-10px); }
+      .settings-tooltip.show { transform: translateY(0); }
+      .settings-submenu { 
+        top: 100%; left: 0; transform: translateY(-5px); width: 240px; margin-top: 5px; 
+      }
+      .settings-submenu::before { top: -10px; left: 0; height: 10px; width: 100%; }
+      .settings-menu-item:hover .settings-submenu, .settings-submenu:hover { transform: translateY(0); }
     }
 
     .btn-spectate { background: var(--btn-spec-bg); color: var(--btn-spec-color); border: 1px solid var(--btn-spec-border); width: 100%; }
@@ -333,56 +351,17 @@
     .list-header h2 { font-size: 2.5rem; color: var(--board-title-color); margin: 0; font-weight: 800; transition: color 0.6s; }
     .list-header p { color: var(--muted); margin: 0; font-size: 1.2rem; transition: color 0.6s; }
     
-    .attr-wrapper { 
-      position: relative; 
-      display: inline-flex; 
-      align-items: center; 
-      justify-content: center; 
-      cursor: pointer; 
-      z-index: 20; 
-      outline: none; 
-    }
+    .attr-wrapper { position: relative; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; outline: none; }
     .attr-badge { 
-      font-size: 11px; 
-      font-weight: 800; 
-      padding: 4px 10px; 
-      border-radius: 20px; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px; 
-      white-space: nowrap; 
-      display: inline-block;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--tag-color);
-      color: var(--tag-color);
+      font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; 
+      letter-spacing: 0.5px; white-space: nowrap; display: inline-block; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative; overflow: hidden; border: 1px solid var(--tag-color); color: var(--tag-color);
     }
-    .attr-badge::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: var(--tag-color);
-      opacity: 0.15;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 1;
-    }
-    .attr-badge span {
-      position: relative;
-      z-index: 2;
-      transition: color 0.3s ease;
-    }
-    .attr-wrapper:hover .attr-badge, .attr-wrapper:focus .attr-badge, .attr-wrapper:active .attr-badge { 
-      transform: translateY(-3px) scale(1.05); 
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
-      border-color: transparent !important;
-    }
-    .attr-wrapper:hover .attr-badge::before, .attr-wrapper:focus .attr-badge::before, .attr-wrapper:active .attr-badge::before {
-      opacity: 1;
-    }
-    .attr-wrapper:hover .attr-badge span, .attr-wrapper:focus .attr-badge span, .attr-wrapper:active .attr-badge span {
-      color: #ffffff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-    }
+    .attr-badge::before { content: ""; position: absolute; inset: 0; background: var(--tag-color); opacity: 0.15; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1; }
+    .attr-badge span { position: relative; z-index: 2; transition: color 0.3s ease; }
+    .attr-wrapper:hover .attr-badge, .attr-wrapper:focus .attr-badge, .attr-wrapper:active .attr-badge { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); border-color: transparent !important; }
+    .attr-wrapper:hover .attr-badge::before, .attr-wrapper:focus .attr-badge::before, .attr-wrapper:active .attr-badge::before { opacity: 1; }
+    .attr-wrapper:hover .attr-badge span, .attr-wrapper:focus .attr-badge span, .attr-wrapper:active .attr-badge span { color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
 
     #tagDimOverlay.show { opacity: 1; pointer-events: auto; }
     #tagInfoPanel.show { transform: translate(-50%, 0); pointer-events: auto; }
@@ -391,9 +370,8 @@
 <body>
   
   <div id="flashOverlay" class="fixed inset-0 z-[9999999] pointer-events-none opacity-0 transition-opacity duration-300"></div>
-
   <div id="tagDimOverlay" class="fixed inset-0 z-[999990] bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-400 cursor-pointer" onclick="hideTagPanel()"></div>
-
+  
   <div id="tagInfoPanel" class="fixed top-0 left-1/2 -translate-x-1/2 -translate-y-[150%] z-[999991] w-[90%] max-w-sm transition-transform duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] mt-6 cursor-pointer" onclick="hideTagPanel()">
     <div class="p-6 text-center rounded-3xl shadow-2xl" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); color: #fff;">
       <div id="tagInfoContent" class="text-base leading-relaxed font-sans"></div>
@@ -418,6 +396,29 @@
       <h4 id="infoTitle" class="text-lg font-bold mb-2 text-slate-800 dark:text-slate-200">How to use</h4>
       <p id="infoText" class="text-sm mb-4 text-slate-600 dark:text-slate-400 leading-relaxed" style="white-space: pre-line;"></p>
       <button id="infoActionBtn" class="btn-add w-full py-2 text-sm">Create your own board</button>
+    </div>
+  </div>
+
+  <!-- Settings Button under Info -->
+  <div class="settings-custom" id="settingsWrapper">
+    <button class="settings-btn glass-card" id="settingsTrigger" title="Settings">
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+    </button>
+    <div class="settings-tooltip glass-card" style="overflow: visible;" id="settingsTooltip">
+      <div class="settings-menu-item" id="defPassMenuItem">
+        <span id="lblDefPassMenu" class="font-bold">Default password</span> 
+        <i class="fa-solid fa-chevron-right text-[10px] ml-2 opacity-50"></i>
+        
+        <div class="settings-submenu glass-card cursor-default" onclick="event.stopPropagation()">
+          <h4 id="lblDefPassTitle" class="text-lg font-bold mb-3 text-slate-800 dark:text-slate-200">Default password</h4>
+          <input type="password" id="defaultPasswordInput" placeholder="Password" class="mb-4 w-full !text-sm !p-3">
+          <label class="flex items-center gap-2 mb-3 cursor-pointer select-none">
+            <input type="checkbox" id="rememberMeCheckbox" class="w-4 h-4 accent-purple-600 rounded cursor-pointer">
+            <span id="lblRememberMe" class="text-sm font-medium text-slate-700 dark:text-slate-300">Remember me</span>
+          </label>
+          <p id="lblDefPassDesc" class="text-xs text-slate-500 leading-relaxed">Default password is automatically applied to all boards</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -488,7 +489,7 @@
   <div id="authModal" class="modal">
     <div class="modal-box glass-card">
       <h3 id="authTitle">Control Panel</h3>
-      <p id="authDesc">Enter password to access.</p>
+      <p id="authDesc" style="transition: color 0.3s;">Enter password to access.</p>
       <input id="authPass" type="password" placeholder="Password" style="margin-bottom: 15px;">
       <div class="modal-actions">
         <button id="authCancel" class="btn-cancel" style="flex:1;">Cancel</button>
@@ -571,7 +572,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyCfzqG_mbm80lC7p7p6IiSO_d1ie0ZaNVU",
       authDomain: "leaderboard-6e9c6.firebaseapp.com",
-      databaseURL: "https://leaderboard-6e9c6-default-rtdb.europe-west1.firebasedatabase.app",
+      databaseURL: "https://leaderboard-6e9c6-default-rtdb.europe-west1.firebasedatabase.app/",
       projectId: "leaderboard-6e9c6",
       storageBucket: "leaderboard-6e9c6.firebasestorage.app",
       messagingSenderId: "92180809254",
@@ -581,28 +582,17 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Логика Темной Темы
     const themeToggle = document.getElementById('themeToggle');
 
     function setTheme(isDark) {
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('appTheme', 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('appTheme', 'light');
-      }
+      if (isDark) { document.documentElement.classList.add('dark'); localStorage.setItem('appTheme', 'dark'); } 
+      else { document.documentElement.classList.remove('dark'); localStorage.setItem('appTheme', 'light'); }
     }
 
     const savedTheme = localStorage.getItem('appTheme');
-    if (savedTheme === 'dark') {
-      setTheme(true);
-    } else if (savedTheme === 'light') {
-      setTheme(false);
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark);
-    }
+    if (savedTheme === 'dark') setTheme(true);
+    else if (savedTheme === 'light') setTheme(false);
+    else { const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; setTheme(prefersDark); }
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
       if (!localStorage.getItem('appTheme')) setTheme(e.matches);
@@ -614,7 +604,6 @@
       beep(500, 40, 0.05);
     });
 
-    // Добавлены переводы для счетчика посещений, изменения баллов и дублирования списков
     const translations = {
       en: {
         appTitle: "📋 Boards System", searchPlaceholder: "🔍 Search lists...", createListBtn: "Create New List", backBtn: "Back", spectateMode: "👁️ Spectate Mode", controlMode: "⚙️ Control Mode",
@@ -626,7 +615,8 @@
         editTitleMsg: "Enter new list title:", editSubMsg: "Enter new list subtitle:", blockedTitle: "Access Blocked", alertSys: "System Alert",
         infoTitle: "How to use", infoText: "1. Create a board using a password.\n2. Share the link to let others spectate.\n3. Enter control mode using your password to add and edit participant scores.", createYours: "Create your own board!",
         tagInfo: "✨ Mark of Distinction<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Issued by the project creator to highlight official and verified lists.</span>",
-        visitsSince: "Total visits since creation:", editScoreTitle: "Edit Score", editScoreMsg: "Enter new score:", duplicateBtn: "Duplicate", duplicateConfirmTitle: "Duplicate List", duplicateConfirmMsg: "Are you sure you want to create a copy of this list?", invalidNum: "Invalid number!"
+        visitsSince: "Total visits since creation:", editScoreTitle: "Edit Score", editScoreMsg: "Enter new score:", duplicateBtn: "Duplicate", duplicateConfirmTitle: "Duplicate List", duplicateConfirmMsg: "Are you sure you want to create a copy of this list?", invalidNum: "Invalid number!",
+        defaultPass: "Default password", rememberMe: "Remember me", defPassDesc: "Default password is automatically applied to all boards", defPassMismatch: "Default password doesn't match."
       },
       ru: {
         appTitle: "📋 Система Списков", searchPlaceholder: "🔍 Поиск списка...", createListBtn: "Создать новый список", backBtn: "Назад", pass: "Введите пароль", spectateMode: "👁️ Наблюдение", madeBy: "Разработчик:", controlMode: "⚙️ Управление",
@@ -638,7 +628,8 @@
         editTitleMsg: "Введите новое название:", editSubMsg: "Введите новое описание:", blockedTitle: "Доступ закрыт", alertSys: "Системное сообщение",
         infoTitle: "Как использовать", infoText: "1. Создайте список, придумав пароль.\n2. Поделитесь ссылкой, чтобы другие могли наблюдать.\n3. Войдите в режим 'Управление' по паролю, чтобы добавлять участников и менять баллы.", createYours: "Создать свой список!",
         tagInfo: "✨ Знак Отличия<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Выдается создателем проекта для выделения официальных и проверенных списков.</span>",
-        visitsSince: "Всего посещений с момента создания:", editScoreTitle: "Изменить балл", editScoreMsg: "Введите новый балл:", duplicateBtn: "Дублировать", duplicateConfirmTitle: "Дублировать список", duplicateConfirmMsg: "Вы уверены, что хотите создать копию этого списка?", invalidNum: "Неверное число!"
+        visitsSince: "Всего посещений с момента создания:", editScoreTitle: "Изменить балл", editScoreMsg: "Введите новый балл:", duplicateBtn: "Дублировать", duplicateConfirmTitle: "Дублировать список", duplicateConfirmMsg: "Вы уверены, что хотите создать копию этого списка?", invalidNum: "Неверное число!",
+        defaultPass: "Стандартный пароль", rememberMe: "Запомнить меня", defPassDesc: "Стандартный пароль автоматически применяется ко всем спискам", defPassMismatch: "Стандартный пароль не подходит."
       },
       uz: {
         appTitle: "📋 Ro'yxatlar tizimi", searchPlaceholder: "🔍 Qidirish...", createListBtn: "Yangi ro'yxat yaratish", backBtn: "Orqaga", pass: "Parolni kiriting", spectateMode: "👁️ Kuzatish", madeBy: "Muallif:", controlMode: "⚙️ Boshqaruv",
@@ -650,7 +641,8 @@
         linkerr: "Nusxa olishda xatolik yuz berdi!", editSubMsg: "Yangi tavsifni kiriting:", blockedTitle: "Kirish yopildi", alertSys: "Tizim xabari",
         infoTitle: "Qanday ishlatiladi", infoText: "1. Parol o'ylab topib, ro'yxat yarating.\n2. Boshqalar kuzatishi uchun havolani ulashing.\n3. Ishtirokchilar va ballarni o'zgartirish uchun parol orqali 'Boshqarish' rejimiga kiring.", createYours: "O'z ro'yxatingizni yarating!",
         tagInfo: "✨ Nishon Belgisi<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Loyiha yaratuvchisi tomonidan rasmiy va tasdiqlangan ro'yxatlarni ajratib ko'rsatish uchun beriladi.</span>",
-        visitsSince: "Yaratilgandan beri jami tashriflar:", editScoreTitle: "Ballni o'zgartirish", editScoreMsg: "Yangi ballni kiriting:", duplicateBtn: "Nusxalash", duplicateConfirmTitle: "Nusxa olish", duplicateConfirmMsg: "Ushbu ro'yxatdan nusxa olishga ishonchingiz komilmi?", invalidNum: "Noto'g'ri raqam!"
+        visitsSince: "Yaratilgandan beri jami tashriflar:", editScoreTitle: "Ballni o'zgartirish", editScoreMsg: "Yangi ballni kiriting:", duplicateBtn: "Nusxalash", duplicateConfirmTitle: "Nusxa olish", duplicateConfirmMsg: "Ushbu ro'yxatdan nusxa olishga ishonchingiz komilmi?", invalidNum: "Noto'g'ri raqam!",
+        defaultPass: "Standart parol", rememberMe: "Eslab qolish", defPassDesc: "Standart parol barcha ro'yxatlarga avtomatik tarzda qo'llaniladi", defPassMismatch: "Standart parol mos kelmadi."
       }
     };
 
@@ -661,11 +653,9 @@
     }
     const t = () => translations[currentLang];
 
-    // ГЛОБАЛЬНЫЕ ФУНКЦИИ ПАНЕЛИ ИНФОРМАЦИИ
     window.showTagPanel = function(e) {
       if(e) e.stopPropagation();
       document.getElementById('tagInfoContent').innerHTML = t().tagInfo;
-      
       document.getElementById('tagCloseText').innerText = 
           currentLang === 'ru' ? 'Нажмите в любом месте чтобы закрыть' : 
           currentLang === 'uz' ? 'Yopish uchun istalgan joyni bosing' : 
@@ -705,12 +695,16 @@
       document.getElementById('authEnter').innerText = t().enter;
       document.getElementById('blockOverlayTitle').innerText = t().blockedTitle;
       
-      // Обновляем текст счетчика
       document.getElementById('visitTextLabel').innerText = t().visitsSince;
-
       document.getElementById('infoTitle').innerText = t().infoTitle;
       document.getElementById('infoText').innerText = t().infoText;
       document.getElementById('infoActionBtn').innerText = t().createYours;
+
+      document.getElementById('lblDefPassMenu').innerText = t().defaultPass;
+      document.getElementById('lblDefPassTitle').innerText = t().defaultPass;
+      document.getElementById('defaultPasswordInput').placeholder = t().phPass;
+      document.getElementById('lblRememberMe').innerText = t().rememberMe;
+      document.getElementById('lblDefPassDesc').innerText = t().defPassDesc;
 
       const langData = { en: { flag: '🇬🇧', name: 'English' }, ru: { flag: '🇷🇺', name: 'Русский' }, uz: { flag: '🇺🇿', name: "O'zbekcha" } };
       document.getElementById('activeLangFlag').innerText = langData[currentLang].flag;
@@ -734,7 +728,9 @@
       e.stopPropagation(); 
       langMenu.classList.toggle('show'); 
       document.getElementById('infoTooltip').classList.remove('show');
+      document.getElementById('settingsTooltip').classList.remove('show');
     });
+    
     document.querySelectorAll('.lang-option').forEach(option => {
       option.addEventListener('click', function() {
         const val = this.getAttribute('data-value');
@@ -745,34 +741,61 @@
 
     const infoTrigger = document.getElementById('infoTrigger');
     const infoTooltip = document.getElementById('infoTooltip');
-    const infoActionBtn = document.getElementById('infoActionBtn');
-
     infoTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
       infoTooltip.classList.toggle('show');
       langMenu.classList.remove('show');
+      document.getElementById('settingsTooltip').classList.remove('show');
     });
 
-    infoActionBtn.addEventListener('click', () => {
+    const settingsTrigger = document.getElementById('settingsTrigger');
+    const settingsTooltip = document.getElementById('settingsTooltip');
+    settingsTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      settingsTooltip.classList.toggle('show');
+      langMenu.classList.remove('show');
       infoTooltip.classList.remove('show');
-      if (currentBoardId !== null) {
-        currentBoardId = null; 
-        window.history.pushState({}, '', '/'); 
-        showView('main'); 
-        renderBoards();
-      }
-      setTimeout(() => {
-        const titleInput = document.getElementById('newBoardTitle');
-        if(titleInput) {
-          titleInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          titleInput.focus();
-        }
-      }, 100);
+    });
+
+    document.getElementById('infoActionBtn').addEventListener('click', () => {
+      infoTooltip.classList.remove('show');
+      if (currentBoardId !== null) { currentBoardId = null; window.history.pushState({}, '', '/'); showView('main'); renderBoards(); }
+      setTimeout(() => { const titleInput = document.getElementById('newBoardTitle'); if(titleInput) { titleInput.scrollIntoView({ behavior: 'smooth', block: 'center' }); titleInput.focus(); } }, 100);
     });
 
     document.addEventListener('click', () => {
       langMenu.classList.remove('show');
       infoTooltip.classList.remove('show');
+      settingsTooltip.classList.remove('show');
+    });
+
+    // Default Password Local Storage Logic
+    const defPassInput = document.getElementById('defaultPasswordInput');
+    const rememberCheckbox = document.getElementById('rememberMeCheckbox');
+    
+    const savedDefPass = localStorage.getItem('defaultPassword');
+    if (savedDefPass) {
+        defPassInput.value = savedDefPass;
+        rememberCheckbox.checked = true;
+    }
+    
+    rememberCheckbox.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            if (defPassInput.value) {
+                localStorage.setItem('defaultPassword', defPassInput.value);
+            }
+        } else {
+            localStorage.removeItem('defaultPassword');
+        }
+    });
+    
+    defPassInput.addEventListener('input', (e) => {
+        if (rememberCheckbox.checked) {
+            localStorage.setItem('defaultPassword', e.target.value);
+        }
+        if (e.target.value === "") {
+            localStorage.removeItem('defaultPassword');
+        }
     });
 
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -802,11 +825,26 @@
       document.getElementById('promptTitle').innerText = title;
       document.getElementById('promptMessage').innerText = message;
       const input = document.getElementById('promptInput'); input.value = defaultVal !== undefined ? defaultVal : '';
-      const modal = document.getElementById('customPrompt'); modal.classList.add('show'); 
-      input.focus(); 
-      setTimeout(() => input.select(), 10);
+      const modal = document.getElementById('customPrompt'); modal.classList.add('show'); input.focus(); setTimeout(() => input.select(), 10);
       document.getElementById('promptCancelBtn').onclick = () => modal.classList.remove('show');
       document.getElementById('promptSaveBtn').onclick = () => { modal.classList.remove('show'); onSave(input.value.trim()); };
+    }
+
+    function openAuthModal(title, desc, onEnterCallback) {
+        const modal = document.getElementById('authModal');
+        document.getElementById('authTitle').innerText = title;
+        const descEl = document.getElementById('authDesc');
+        descEl.innerText = desc;
+        document.getElementById('authPass').value = '';
+
+        if (desc === t().defPassMismatch) descEl.style.color = '#ef4444';
+        else descEl.style.color = '';
+
+        modal.classList.add('show');
+        document.getElementById('authPass').focus();
+
+        document.getElementById('authCancel').onclick = () => modal.classList.remove('show');
+        document.getElementById('authEnter').onclick = onEnterCallback;
     }
 
     let allBoards = {};
@@ -815,7 +853,6 @@
     let isControlMode = false;
     let currentBoardItems = {};
 
-    // Глобальные переменные для задержки баллов (Debounce)
     window.pendingScoreDeltas = {};
     window.scoreTimers = {};
 
@@ -824,7 +861,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const boardFromUrl = urlParams.get('board');
 
-    // Логика глобального счетчика посещений
     if (!sessionStorage.getItem('site_visited')) {
         update(ref(db, 'system'), { visits: increment(1) }).catch(e => console.log(e));
         sessionStorage.setItem('site_visited', 'true');
@@ -836,48 +872,34 @@
     });
 
     function checkBlockState() {
-      let isBlocked = false;
-      let blockMsg = "";
+      let isBlocked = false; let blockMsg = "";
       const currentRoleEval = currentBoardId === null ? 'spectate' : (isControlMode ? 'control' : 'spectate');
 
       if (currentBoardId === null) {
         const mainBlock = systemBlocks['main'];
-        if (mainBlock?.active && mainBlock.roles?.includes(currentRoleEval)) {
-           isBlocked = true;
-           blockMsg = mainBlock.payload || "Access Blocked";
-        }
+        if (mainBlock?.active && mainBlock.roles?.includes(currentRoleEval)) { isBlocked = true; blockMsg = mainBlock.payload || "Access Blocked"; }
       } else {
         const boardBlock = allBoards[currentBoardId]?.settings?.block;
-        if (boardBlock?.active && boardBlock.roles?.includes(currentRoleEval)) {
-           isBlocked = true;
-           blockMsg = boardBlock.payload || "Access Blocked";
-        }
+        if (boardBlock?.active && boardBlock.roles?.includes(currentRoleEval)) { isBlocked = true; blockMsg = boardBlock.payload || "Access Blocked"; }
       }
 
       const blockOverlay = document.getElementById('blockOverlay');
-      if(isBlocked) {
-        document.getElementById('blockOverlayMsg').innerText = blockMsg;
-        blockOverlay.classList.remove('hidden');
-      } else {
-        blockOverlay.classList.add('hidden');
-      }
+      if(isBlocked) { document.getElementById('blockOverlayMsg').innerText = blockMsg; blockOverlay.classList.remove('hidden'); } 
+      else { blockOverlay.classList.add('hidden'); }
     }
 
     function isActionBlocked(targetLoc, actionRole) {
       if (targetLoc === 'main') {
-         const mainBlock = systemBlocks['main'];
-         return mainBlock?.active && mainBlock.roles?.includes(actionRole) ? (mainBlock.payload || t().accessDenied) : null;
+         const mainBlock = systemBlocks['main']; return mainBlock?.active && mainBlock.roles?.includes(actionRole) ? (mainBlock.payload || t().accessDenied) : null;
       } else {
-         const boardBlock = allBoards[targetLoc]?.settings?.block;
-         return boardBlock?.active && boardBlock.roles?.includes(actionRole) ? (boardBlock.payload || t().accessDenied) : null;
+         const boardBlock = allBoards[targetLoc]?.settings?.block; return boardBlock?.active && boardBlock.roles?.includes(actionRole) ? (boardBlock.payload || t().accessDenied) : null;
       }
     }
 
     const connectTime = Date.now();
     const eventsRef = query(ref(db, 'events'), orderByChild('timestamp'), startAt(connectTime));
     onChildAdded(eventsRef, (snapshot) => {
-      const ev = snapshot.val();
-      if(!ev) return;
+      const ev = snapshot.val(); if(!ev) return;
       
       const currentLoc = currentBoardId === null ? 'main' : currentBoardId;
       const currentViewRole = currentBoardId === null ? 'spectate' : (isControlMode ? 'control' : 'spectate');
@@ -886,26 +908,15 @@
       const isRoleMatched = ev.roles && ev.roles.includes(currentViewRole);
 
       if(isTargeted && isRoleMatched) {
-        if(ev.type === 'confetti') {
-          confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 }, zIndex: 99999 });
-          beep(900, 150);
-        } else if(ev.type === 'alert') {
-          uiAlert(t().alertSys, ev.payload);
-          beep(400, 300);
-        } else if (ev.type === 'flash') {
-          const overlay = document.getElementById('flashOverlay');
-          overlay.style.backgroundColor = ev.color || '#ffffff';
-          overlay.style.opacity = '0.8';
-          beep(800, 100);
-          setTimeout(() => { overlay.style.opacity = '0'; }, 150);
+        if(ev.type === 'confetti') { confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 }, zIndex: 99999 }); beep(900, 150); } 
+        else if(ev.type === 'alert') { uiAlert(t().alertSys, ev.payload); beep(400, 300); } 
+        else if (ev.type === 'flash') {
+          const overlay = document.getElementById('flashOverlay'); overlay.style.backgroundColor = ev.color || '#ffffff'; overlay.style.opacity = '0.8'; beep(800, 100); setTimeout(() => { overlay.style.opacity = '0'; }, 150);
         }
       }
     });
 
-    onValue(ref(db, 'system/blocks'), (snapshot) => {
-       systemBlocks = snapshot.val() || {};
-       checkBlockState();
-    });
+    onValue(ref(db, 'system/blocks'), (snapshot) => { systemBlocks = snapshot.val() || {}; checkBlockState(); });
 
     let firstLoad = true;
     const boardsRef = ref(db, 'boards');
@@ -926,10 +937,8 @@
         if (currentBoardId === null) { renderBoards(document.getElementById('searchInput').value.toLowerCase()); } 
         else if (allBoards[currentBoardId]) {
           const s = allBoards[currentBoardId].settings;
-          document.getElementById('currentBoardTitle').innerText = s.title;
-          document.getElementById('currentBoardSubtitle').innerText = s.subtitle;
-          document.getElementById('currentBoardViews').innerText = s.views || 0;
-          document.getElementById('currentBoardAttrs').innerHTML = renderAttributesHTML(s.attributes);
+          document.getElementById('currentBoardTitle').innerText = s.title; document.getElementById('currentBoardSubtitle').innerText = s.subtitle;
+          document.getElementById('currentBoardViews').innerText = s.views || 0; document.getElementById('currentBoardAttrs').innerHTML = renderAttributesHTML(s.attributes);
         }
       }
     });
@@ -938,43 +947,28 @@
       if (!attributes || !Array.isArray(attributes) || attributes.length === 0) return "";
       return attributes.map(a => {
         const text = a.texts ? (a.texts[currentLang] || a.texts.en || '') : (a.text || '');
-        return `
-          <div class="attr-wrapper" tabindex="0" onclick="showTagPanel(event)">
-            <span class="attr-badge" style="--tag-color: ${a.color};">
-              <span>${text}</span>
-            </span>
-          </div>
-        `;
+        return `<div class="attr-wrapper" tabindex="0" onclick="showTagPanel(event)"><span class="attr-badge" style="--tag-color: ${a.color};"><span>${text}</span></span></div>`;
       }).join('');
     }
 
     function renderBoards(filterText = "") {
-      const container = document.getElementById('boardsList');
-      container.innerHTML = "";
+      const container = document.getElementById('boardsList'); container.innerHTML = "";
       
       const sortedIds = Object.keys(allBoards).filter(id => {
-        const b = allBoards[id].settings;
-        return !filterText || b.title.toLowerCase().includes(filterText) || b.subtitle.toLowerCase().includes(filterText);
+        const b = allBoards[id].settings; return !filterText || b.title.toLowerCase().includes(filterText) || b.subtitle.toLowerCase().includes(filterText);
       }).sort((a, b) => {
-        const sA = allBoards[a].settings;
-        const sB = allBoards[b].settings;
-        const attrCountA = sA.attributes ? sA.attributes.length : 0;
-        const attrCountB = sB.attributes ? sB.attributes.length : 0;
+        const sA = allBoards[a].settings; const sB = allBoards[b].settings;
+        const attrCountA = sA.attributes ? sA.attributes.length : 0; const attrCountB = sB.attributes ? sB.attributes.length : 0;
         if(attrCountA !== attrCountB) return attrCountB - attrCountA;
-        const viewA = sA.views || 0;
-        const viewB = sB.views || 0;
-        return viewB - viewA;
+        return (sB.views || 0) - (sA.views || 0);
       });
       
       sortedIds.forEach((boardId, i) => {
-        const b = allBoards[boardId].settings;
-        const el = document.createElement('div');
-        
+        const b = allBoards[boardId].settings; const el = document.createElement('div');
         let rankClass = i === 0 ? "rank-gold" : (i === 1 ? "rank-silver" : (i === 2 ? "rank-bronze" : ""));
         el.className = `row-item glass-card ${rankClass}`;
         
-        const viewsCount = b.views || 0;
-        const attrsHtml = renderAttributesHTML(b.attributes);
+        const viewsCount = b.views || 0; const attrsHtml = renderAttributesHTML(b.attributes);
 
         el.innerHTML = `
           <div class="board-info">
@@ -983,62 +977,56 @@
               <div style="display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; position: relative; z-index: 20;">${attrsHtml}</div>
               <div class="board-subtitle">${b.subtitle}</div>
             </div>
-            <div class="views-badge" title="Views">
-              <i class="fa-solid fa-eye"></i> ${viewsCount}
-            </div>
+            <div class="views-badge" title="Views"><i class="fa-solid fa-eye"></i> ${viewsCount}</div>
           </div>
           <div class="hover-controls">
             <div style="display: flex; gap: 10px; width: 100%;">
-              <button class="btn-spectate" style="flex: 1; margin: 0;">
-                <i class="fa-solid fa-eye"></i> ${t().spectateBtn}
-              </button>
-              <button class="btn-copy" style="aspect-ratio: 1/1; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center; width: 44px; flex-shrink: 0; margin: 0;" title="Copy Link">
-                <i class="fa-solid fa-copy"></i>
-              </button>
+              <button class="btn-spectate" style="flex: 1; margin: 0;"><i class="fa-solid fa-eye"></i> ${t().spectateBtn}</button>
+              <button class="btn-copy" style="aspect-ratio: 1/1; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center; width: 44px; flex-shrink: 0; margin: 0;" title="Copy Link"><i class="fa-solid fa-copy"></i></button>
             </div>
             <button class="btn-control"><i class="fa-solid fa-gear"></i> ${t().controlBtn}</button>
             <button class="btn-del"><i class="fa-solid fa-trash"></i> ${t().deleteBtn}</button>
           </div>
         `;
 
-        el.querySelector('.btn-spectate').onclick = () => {
-          window.history.pushState({}, '', `?board=${boardId}`);
-          openBoard(boardId, false);
-        };
+        el.querySelector('.btn-spectate').onclick = () => { window.history.pushState({}, '', `?board=${boardId}`); openBoard(boardId, false); };
         el.querySelector('.btn-copy').onclick = (e) => {
-          e.stopPropagation();
-          const url = `imboards.github.io/main?board=${encodeURIComponent(boardId)}`;
+          e.stopPropagation(); const url = `imboards.github.io/main?board=${encodeURIComponent(boardId)}`;
           navigator.clipboard.writeText(url).then(() => {
-            const icon = el.querySelector('.btn-copy i');
-            icon.className = "fa-solid fa-check text-green-500"; beep(800, 50);
-            setTimeout(() => { icon.className = "fa-solid fa-copy text-slate-500"; }, 2000);
+            const icon = el.querySelector('.btn-copy i'); icon.className = "fa-solid fa-check text-green-500"; beep(800, 50); setTimeout(() => { icon.className = "fa-solid fa-copy text-slate-500"; }, 2000);
           }).catch(() => uiAlert(t().error, t().linkerr));
         };
+        
         el.querySelector('.btn-control').onclick = () => {
-          document.getElementById('authPass').value = ''; const modal = document.getElementById('authModal');
-          document.getElementById('authTitle').innerText = t().controlMode; document.getElementById('authDesc').innerText = t().pass;
-          modal.classList.add('show'); document.getElementById('authPass').focus();
-          document.getElementById('authCancel').onclick = () => modal.classList.remove('show');
-          document.getElementById('authEnter').onclick = () => {
-            if(document.getElementById('authPass').value === b.password) { modal.classList.remove('show'); window.history.pushState({}, '', `?board=${boardId}`); openBoard(boardId, true); } 
-            else { uiAlert(t().accessDenied, t().incorrectPass); }
+          const defaultPass = document.getElementById('defaultPasswordInput').value;
+          const processControlEnter = () => {
+            if(document.getElementById('authPass').value === b.password) { 
+              document.getElementById('authModal').classList.remove('show'); window.history.pushState({}, '', `?board=${boardId}`); openBoard(boardId, true); 
+            } else { uiAlert(t().accessDenied, t().incorrectPass); }
           };
+          
+          if (defaultPass) {
+             if (defaultPass === b.password) { window.history.pushState({}, '', `?board=${boardId}`); openBoard(boardId, true); return; } 
+             else { openAuthModal(t().controlMode, t().defPassMismatch, processControlEnter); return; }
+          }
+          openAuthModal(t().controlMode, t().pass, processControlEnter);
         };
 
         el.querySelector('.btn-del').onclick = () => {
-           const blockMsg = isActionBlocked(boardId, 'delete');
-           if (blockMsg) return uiAlert(t().accessDenied, blockMsg);
+           const blockMsg = isActionBlocked(boardId, 'delete'); if (blockMsg) return uiAlert(t().accessDenied, blockMsg);
 
-           document.getElementById('authPass').value = ''; const authModal = document.getElementById('authModal');
-           document.getElementById('authTitle').innerText = t().deleteListTitle; document.getElementById('authDesc').innerText = t().deleteListMsg;
-           authModal.classList.add('show'); document.getElementById('authPass').focus();
-           document.getElementById('authCancel').onclick = () => authModal.classList.remove('show');
-           document.getElementById('authEnter').onclick = () => {
+           const defaultPass = document.getElementById('defaultPasswordInput').value;
+           const processDeleteEnter = () => {
              if(document.getElementById('authPass').value === b.password) {
-                authModal.classList.remove('show');
-                uiConfirm(t().deleteListTitle, `${t().sureDeleteList} "${b.title}"?`, () => remove(ref(db, `boards/${boardId}`)));
+                document.getElementById('authModal').classList.remove('show'); uiConfirm(t().deleteListTitle, `${t().sureDeleteList} "${b.title}"?`, () => remove(ref(db, `boards/${boardId}`)));
              } else { uiAlert(t().accessDenied, t().incorrectPass); }
            };
+           
+           if (defaultPass) {
+              if (defaultPass === b.password) { uiConfirm(t().deleteListTitle, `${t().sureDeleteList} "${b.title}"?`, () => remove(ref(db, `boards/${boardId}`))); return; } 
+              else { openAuthModal(t().deleteListTitle, t().defPassMismatch, processDeleteEnter); return; }
+           }
+           openAuthModal(t().deleteListTitle, t().deleteListMsg, processDeleteEnter);
         };
         container.appendChild(el);
       });
@@ -1048,9 +1036,7 @@
     document.getElementById('searchInput').addEventListener('input', (e) => renderBoards(e.target.value.toLowerCase()));
 
     document.getElementById('addBoardBtn').onclick = () => {
-      const title = document.getElementById('newBoardTitle').value.trim();
-      const subtitle = document.getElementById('newBoardSubtitle').value.trim();
-      const pass = document.getElementById('newBoardPass').value;
+      const title = document.getElementById('newBoardTitle').value.trim(); const subtitle = document.getElementById('newBoardSubtitle').value.trim(); const pass = document.getElementById('newBoardPass').value;
       if(!title || !pass) return uiAlert(t().warning, t().titleReq);
       const safeId = title.trim().toLowerCase().replace(/\s+/g, '-').replace(/[.#$[\]]/g, ""); 
       const isDuplicate = Object.values(allBoards).some(b => b.settings.title.toLowerCase() === title.toLowerCase());
@@ -1058,34 +1044,24 @@
       set(ref(db, `boards/${safeId}/settings`), { title, subtitle, password: pass, views: 0 });
       document.getElementById('newBoardTitle').value = ""; document.getElementById('newBoardSubtitle').value = ""; document.getElementById('newBoardPass').value = "";
     };
+    
 
     function openBoard(boardId, controlAccess) {
-      currentBoardId = boardId;
-      isControlMode = controlAccess;
-      showView('board');
+      currentBoardId = boardId; isControlMode = controlAccess; showView('board');
 
       const settings = allBoards[boardId].settings;
-      const titleEl = document.getElementById('currentBoardTitle');
-      const subtitleEl = document.getElementById('currentBoardSubtitle');
-      const duplicateBtn = document.getElementById('duplicateBoardBtn');
+      const titleEl = document.getElementById('currentBoardTitle'); const subtitleEl = document.getElementById('currentBoardSubtitle'); const duplicateBtn = document.getElementById('duplicateBoardBtn');
       
-      titleEl.innerText = settings.title;
-      subtitleEl.innerText = settings.subtitle;
-      document.getElementById('currentBoardViews').innerText = settings.views || 0;
+      titleEl.innerText = settings.title; subtitleEl.innerText = settings.subtitle; document.getElementById('currentBoardViews').innerText = settings.views || 0;
       document.getElementById('currentBoardAttrs').innerHTML = renderAttributesHTML(settings.attributes);
       
       const badge = document.getElementById('modeBadge');
       if(isControlMode) {
         badge.innerText = t().controlMode; badge.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-purple-100 text-purple-800 uppercase tracking-wider";
-        document.getElementById('addItemSection').classList.remove('hidden');
-        titleEl.classList.add('editable-text'); subtitleEl.classList.add('editable-text');
-        duplicateBtn.style.display = 'block';
+        document.getElementById('addItemSection').classList.remove('hidden'); titleEl.classList.add('editable-text'); subtitleEl.classList.add('editable-text'); duplicateBtn.style.display = 'block';
       } else {
         badge.innerText = t().spectateMode; badge.className = "text-xs font-bold px-3 py-1.5 rounded-full bg-blue-100 text-blue-800 uppercase tracking-wider";
-        document.getElementById('addItemSection').classList.add('hidden');
-        titleEl.classList.remove('editable-text'); subtitleEl.classList.remove('editable-text');
-        duplicateBtn.style.display = 'none';
-        
+        document.getElementById('addItemSection').classList.add('hidden'); titleEl.classList.remove('editable-text'); subtitleEl.classList.remove('editable-text'); duplicateBtn.style.display = 'none';
         update(ref(db, `boards/${boardId}/settings`), { views: increment(1) });
       }
 
@@ -1108,45 +1084,26 @@
         uiPrompt(t().subtit, t().editSubMsg, allBoards[currentBoardId].settings.subtitle, (newSub) => update(ref(db, `boards/${currentBoardId}/settings`), { subtitle: newSub }));
     };
 
-    // Функция редактирования баллов
     window.editScorePrompt = function(id, currentScore) {
       if (!isControlMode) return;
       uiPrompt(t().editScoreTitle, t().editScoreMsg, currentScore, (newScoreStr) => {
          const newScore = parseFloat(newScoreStr);
          if (!isNaN(newScore)) {
-            // Очищаем ожидающие клики (debounce) чтобы не было конфликта
-            if (window.scoreTimers[id]) {
-               clearTimeout(window.scoreTimers[id]);
-               delete window.scoreTimers[id];
-               delete window.pendingScoreDeltas[id];
-            }
+            if (window.scoreTimers[id]) { clearTimeout(window.scoreTimers[id]); delete window.scoreTimers[id]; delete window.pendingScoreDeltas[id]; }
             update(ref(db, `boards/${currentBoardId}/items/${id}`), { score: newScore });
-         } else {
-            uiAlert(t().error, t().invalidNum);
-         }
+         } else { uiAlert(t().error, t().invalidNum); }
       });
     };
 
     document.getElementById('duplicateBoardBtn').onclick = () => {
       if (!isControlMode) return;
       uiConfirm(t().duplicateConfirmTitle, t().duplicateConfirmMsg, () => {
-         const settings = allBoards[currentBoardId].settings;
-         const newTitle = settings.title + " 2";
-         // Гарантированно уникальный ID
+         const settings = allBoards[currentBoardId].settings; const newTitle = settings.title + " 2";
          const safeId = newTitle.trim().toLowerCase().replace(/\s+/g, '-').replace(/[.#$[\]]/g, "") + '-' + Date.now().toString().slice(-5);
          
-         const updates = {};
-         updates[`boards/${safeId}/settings`] = { ...settings, title: newTitle, views: 0 };
-         if (currentBoardItems && Object.keys(currentBoardItems).length > 0) {
-             updates[`boards/${safeId}/items`] = currentBoardItems;
-         }
-         
-         update(ref(db), updates).then(() => {
-             // Возврат на главную, где будет виден новый список
-             currentBoardId = null; window.history.pushState({}, '', '/'); showView('main'); renderBoards();
-         }).catch(err => {
-             uiAlert(t().error, "Error");
-         });
+         const updates = {}; updates[`boards/${safeId}/settings`] = { ...settings, title: newTitle, views: 0 };
+         if (currentBoardItems && Object.keys(currentBoardItems).length > 0) { updates[`boards/${safeId}/items`] = currentBoardItems; }
+         update(ref(db), updates).then(() => { currentBoardId = null; window.history.pushState({}, '', '/'); showView('main'); renderBoards(); }).catch(err => { uiAlert(t().error, "Error"); });
       });
     };
 
@@ -1157,144 +1114,84 @@
     function renderBoardItems() {
       const container = document.getElementById('itemsList'); container.innerHTML = "";
       
-      // Сортируем с учетом ожидающих отправки баллов
       const sortedIds = Object.keys(currentBoardItems).sort((a, b) => {
-        const scoreA = (currentBoardItems[a].score || 0) + (window.pendingScoreDeltas[a] || 0);
-        const scoreB = (currentBoardItems[b].score || 0) + (window.pendingScoreDeltas[b] || 0);
-        return scoreB - scoreA;
+        const scoreA = (currentBoardItems[a].score || 0) + (window.pendingScoreDeltas[a] || 0); const scoreB = (currentBoardItems[b].score || 0) + (window.pendingScoreDeltas[b] || 0); return scoreB - scoreA;
       });
 
-      let currentRank = 1;
-      let previousScore = null;
+      let currentRank = 1; let previousScore = null;
 
       sortedIds.forEach((id, i) => {
-        const item = currentBoardItems[id]; 
-        const currentDisplayedScore = (item.score || 0) + (window.pendingScoreDeltas[id] || 0);
-
-        // Обновляем текущий ранг, если балл меньше предыдущего
-        if (previousScore !== null && currentDisplayedScore < previousScore) {
-          currentRank = i + 1;
-        }
-        previousScore = currentDisplayedScore;
+        const item = currentBoardItems[id]; const currentDisplayedScore = (item.score || 0) + (window.pendingScoreDeltas[id] || 0);
+        if (previousScore !== null && currentDisplayedScore < previousScore) { currentRank = i + 1; } previousScore = currentDisplayedScore;
 
         const el = document.createElement('div');
-        let rankClass = currentRank === 1 ? "rank-gold" : (currentRank === 2 ? "rank-silver" : (currentRank === 3 ? "rank-bronze" : ""));
-        el.className = `row-item glass-card ${rankClass}`;
+        let rankClass = currentRank === 1 ? "rank-gold" : (currentRank === 2 ? "rank-silver" : (currentRank === 3 ? "rank-bronze" : "")); el.className = `row-item glass-card ${rankClass}`;
         
-        let controlsHtml = "";
-        let scoreHtml = `<div id="score-${id}" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;">${currentDisplayedScore}</div>`;
+        let controlsHtml = ""; let scoreHtml = `<div id="score-${id}" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;">${currentDisplayedScore}</div>`;
 
         if(isControlMode) {
           scoreHtml = `<div id="score-${id}" class="editable-text" title="Edit Score" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;" onclick="editScorePrompt('${id}', ${item.score || 0})">${currentDisplayedScore}</div>`;
-          
-          controlsHtml = `
-            <div class="hover-controls" style="flex-direction: column;">
-              <div class="score-btns">
-                <button class="btn-minus" onclick="changeScore('${id}', -2)">-2</button>
-                <button class="btn-minus" onclick="changeScore('${id}', -1)">-1</button>
-                <button class="btn-minus" onclick="changeScore('${id}', -0.5)">-0.5</button>
-                <button class="btn-plus" onclick="changeScore('${id}', 0.5)">+0.5</button>
-                <button class="btn-plus" onclick="changeScore('${id}', 1)">+1</button>
-                <button class="btn-plus" onclick="changeScore('${id}', 2)">+2</button>
-              </div>
-              <button class="btn-del" onclick="deleteItem('${id}')">${t().deleteBtn}</button>
-            </div>`;
+          controlsHtml = `<div class="hover-controls" style="flex-direction: column;"><div class="score-btns"><button class="btn-minus" onclick="changeScore('${id}', -2)">-2</button><button class="btn-minus" onclick="changeScore('${id}', -1)">-1</button><button class="btn-minus" onclick="changeScore('${id}', -0.5)">-0.5</button><button class="btn-plus" onclick="changeScore('${id}', 0.5)">+0.5</button><button class="btn-plus" onclick="changeScore('${id}', 1)">+1</button><button class="btn-plus" onclick="changeScore('${id}', 2)">+2</button></div><button class="btn-del" onclick="deleteItem('${id}')">${t().deleteBtn}</button></div>`;
         }
 
-        // Логика цветных тегов для дополнительного поля (Extra)
         let extraHtml = '';
         if (item.extra) {
-            const extraLower = item.extra.toLowerCase();
-            let borderColor = '';
-            
-            if (extraLower.includes('green')) borderColor = '#22c55e';
-            else if (extraLower.includes('red')) borderColor = '#ef4444';
-            else if (extraLower.includes('yellow')) borderColor = '#eab308';
-            else if (extraLower.includes('blue')) borderColor = '#3b82f6';
-
-            if (borderColor) {
-                extraHtml = `<div class="attr-wrapper" style="margin-top: 4px; pointer-events: none;"><span class="attr-badge" style="--tag-color: ${borderColor}; font-size: 10px; padding: 2px 8px;"><span>${item.extra}</span></span></div>`;
-            } else {
-                extraHtml = `<div style="font-size:13px; color:var(--muted); margin-top:2px;">${item.extra}</div>`;
-            }
+            const extraLower = item.extra.toLowerCase(); let borderColor = '';
+            if (extraLower.includes('green')) borderColor = '#22c55e'; else if (extraLower.includes('red')) borderColor = '#ef4444'; else if (extraLower.includes('yellow')) borderColor = '#eab308'; else if (extraLower.includes('blue')) borderColor = '#3b82f6';
+            if (borderColor) { extraHtml = `<div class="attr-wrapper" style="margin-top: 4px; pointer-events: none;"><span class="attr-badge" style="--tag-color: ${borderColor}; font-size: 10px; padding: 2px 8px;"><span>${item.extra}</span></span></div>`; } 
+            else { extraHtml = `<div style="font-size:13px; color:var(--muted); margin-top:2px;">${item.extra}</div>`; }
         }
 
         const rankIcon = currentRank === 1 ? "🏆" : (currentRank === 2 ? "🥈" : (currentRank === 3 ? "🥉" : currentRank));
 
-        el.innerHTML = `
-          <div class="player-info">
-            <div style="display:flex; align-items:center; gap:14px; font-size:18px;">
-              <span style="font-weight:800; font-size: 22px; width: 30px; text-align: center;">${rankIcon}</span>
-              <div>
-                <div style="font-weight:700; color: var(--board-title-color); transition: color 0.6s;">${item.name}</div>
-                ${extraHtml}
-              </div>
-            </div>
-            ${scoreHtml}
-          </div>${controlsHtml}`;
+        el.innerHTML = `<div class="player-info"><div style="display:flex; align-items:center; gap:14px; font-size:18px;"><span style="font-weight:800; font-size: 22px; width: 30px; text-align: center;">${rankIcon}</span><div><div style="font-weight:700; color: var(--board-title-color); transition: color 0.6s;">${item.name}</div>${extraHtml}</div></div>${scoreHtml}</div>${controlsHtml}`;
         container.appendChild(el);
       });
       applyGlassEffects();
     }
 
-    // Обновленная логика изменения баллов с задержкой (Debounce)
     window.changeScore = function(id, delta) { 
       if(!isControlMode) return; 
+      if (!window.pendingScoreDeltas[id]) window.pendingScoreDeltas[id] = 0; window.pendingScoreDeltas[id] += delta;
 
-      // Суммируем незавершенные клики
-      if (!window.pendingScoreDeltas[id]) window.pendingScoreDeltas[id] = 0;
-      window.pendingScoreDeltas[id] += delta;
-
-      // Моментально показываем результат пользователю
       const scoreEl = document.getElementById(`score-${id}`);
-      if (scoreEl) {
-          const baseScore = currentBoardItems[id].score || 0;
-          scoreEl.innerText = baseScore + window.pendingScoreDeltas[id];
-      }
-
-      // Звук короткого клика
+      if (scoreEl) { const baseScore = currentBoardItems[id].score || 0; scoreEl.innerText = baseScore + window.pendingScoreDeltas[id]; }
       beep(800, 30);
 
-      // Сбрасываем старый таймер и ставим новый на 3 секунды
       clearTimeout(window.scoreTimers[id]);
       window.scoreTimers[id] = setTimeout(() => {
-          const finalDelta = window.pendingScoreDeltas[id];
-          
-          // Очищаем кэш до отправки
-          delete window.pendingScoreDeltas[id];
-          delete window.scoreTimers[id];
-
-          if(finalDelta !== 0) {
-              // Атомарно прибавляем очки в базе данных (это исключит баги, если кто-то еще нажмет)
-              update(ref(db, `boards/${currentBoardId}/items/${id}`), { score: increment(finalDelta) });
-              beep(600, 200, 0.1); // Звук сохранения базы
-          }
+          const finalDelta = window.pendingScoreDeltas[id]; delete window.pendingScoreDeltas[id]; delete window.scoreTimers[id];
+          if(finalDelta !== 0) { update(ref(db, `boards/${currentBoardId}/items/${id}`), { score: increment(finalDelta) }); beep(600, 200, 0.1); }
       }, 3000); 
     };
 
     window.deleteItem = function(id) { 
       if(!isControlMode) return; 
-      const blockMsg = isActionBlocked(currentBoardId, 'delete');
-      if (blockMsg) return uiAlert(t().accessDenied, blockMsg);
-
+      const blockMsg = isActionBlocked(currentBoardId, 'delete'); if (blockMsg) return uiAlert(t().accessDenied, blockMsg);
       uiConfirm(t().deleteRecord, t().sureRemove, () => remove(ref(db, `boards/${currentBoardId}/items/${id}`))); 
     };
 
     document.getElementById('addItemBtn').onclick = () => {
       const n = document.getElementById('newItemName'), e = document.getElementById('newItemExtra'), s = document.getElementById('newItemScore');
       if (!n.value.trim()) return uiAlert(t().warning, t().nameReq);
-      push(ref(db, `boards/${currentBoardId}/items`), { name: n.value.trim(), extra: e.value.trim(), score: Number(s.value || 0) });
-      n.value = ""; e.value = ""; s.value = ""; n.focus();
+      push(ref(db, `boards/${currentBoardId}/items`), { name: n.value.trim(), extra: e.value.trim(), score: Number(s.value || 0) }); n.value = ""; e.value = ""; s.value = ""; n.focus();
     };
 
     function applyGlassEffects() {
       document.querySelectorAll('.glass-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width) * 100, y = ((e.clientY - rect.top) / rect.height) * 100;
-          card.style.setProperty('--mouse-x', `${x}%`); card.style.setProperty('--mouse-y', `${y}%`);
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty('--mouse-x', `${x}%`);
+          card.style.setProperty('--mouse-y', `${y}%`);
         });
       });
     }
+
+    // Initialize glass effect listeners
+    applyGlassEffects();
+
   </script>
 </body>
 </html>
