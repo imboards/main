@@ -386,7 +386,7 @@ html.dark .settings-submenu {
       </div>
       <h2 class="text-4xl font-bold mb-4 text-center tracking-tight" id="blockOverlayTitle">Access Blocked</h2>
       <p class="text-xl text-slate-300 text-center max-w-lg px-6 leading-relaxed bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 shadow-2xl" id="blockOverlayMsg">Message goes here...</p>
-    <button id="backBtn" class="btn-cancel text-center" style="padding: 10px 16px; border-radius: 100px;">
+    <button id="backBtn1" class="btn-cancel text-center" style="padding: 10px 16px; border-radius: 100px;">
           <i class="fa-solid fa-arrow-left"></i> Back
         </button>
   </div>
@@ -678,6 +678,7 @@ html.dark .settings-submenu {
       document.getElementById('searchInput').placeholder = t().searchPlaceholder;
       document.getElementById('addBoardBtn').innerText = t().createListBtn;
       document.getElementById('backBtn').innerHTML = `<i class="fa-solid fa-arrow-left"></i> ${t().backBtn}`;
+      document.getElementById('backBtn1').innerHTML = `<i class="fa-solid fa-arrow-left"></i> ${t().backBtn}`;
       document.getElementById('duplicateBoardBtn').innerHTML = `<i class="fa-solid fa-clone"></i> ${t().duplicateBtn}`;
       document.getElementById('addItemBtn').innerText = t().addBtn;
       document.getElementById('newBoardTitle').placeholder = t().phTitle;
@@ -1111,6 +1112,9 @@ html.dark .settings-submenu {
     };
 
     document.getElementById('backBtn').onclick = () => {
+      currentBoardId = null; window.history.pushState({}, '', '/'); showView('main'); renderBoards();
+    };
+    document.getElementById('backBtn1').onclick = () => {
       currentBoardId = null; window.history.pushState({}, '', '/'); showView('main'); renderBoards();
     };
 
