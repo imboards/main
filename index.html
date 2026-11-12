@@ -258,17 +258,17 @@
     .settings-menu-item:hover { background: rgba(124, 58, 237, 0.1); color: var(--accent); }
     
     /* Цвет фона подменю в светлой теме */
-.settings-submenu {
-  position: absolute; top: -12px; left: calc(100% - 15px); width: 280px; padding: 16px;
-  transform: translateX(-10px); opacity: 0; transition: all 0.3s ease; pointer-events: none;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-  background: rgba(255, 255, 255, 0.95); /* нужный цвет для светлой темы */
-}
+    .settings-submenu {
+      position: absolute; top: -12px; left: calc(100% - 15px); width: 280px; padding: 16px;
+      transform: translateX(-10px); opacity: 0; transition: all 0.3s ease; pointer-events: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.95);
+    }
 
-/* Цвет фона подменю в темной теме */
-html.dark .settings-submenu {
-  background: rgba(30, 41, 59, 0.98);
-}
+    /* Цвет фона подменю в темной теме */
+    html.dark .settings-submenu {
+      background: rgba(30, 41, 59, 0.98);
+    }
     /* pseudo-element to bridge the gap and keep hover active */
     .settings-submenu::before {
       content: ""; position: absolute; top: 0; left: -15px; width: 15px; height: 100%;
@@ -346,7 +346,7 @@ html.dark .settings-submenu {
 
     .editable-text { display: inline-flex; align-items: center; cursor: pointer; transition: all 0.2s; position: relative; }
     .editable-text:hover { color: var(--accent) !important; transform: translateX(4px); }
-    .editable-text:hover::after { content: "\f040"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 0.6em; margin-left: 10px; opacity: 0.7; }
+    .editable-text:hover::after { content: "\f040"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 0.7em; margin-left: 8px; color: var(--accent); opacity: 0.9; }
     .list-header { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; margin-bottom: 25px; padding: 10px; }
     .list-header h2 { font-size: 2.5rem; color: var(--board-title-color); margin: 0; font-weight: 800; transition: color 0.6s; }
     .list-header p { color: var(--muted); margin: 0; font-size: 1.2rem; transition: color 0.6s; }
@@ -619,7 +619,8 @@ html.dark .settings-submenu {
         infoTitle: "How to use", infoText: "1. Create a board using a password.\n2. Share the link to let others spectate.\n3. Enter control mode using your password to add and edit participant scores.", createYours: "Create your own board!",
         tagInfo: "✨ Mark of Distinction<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Issued by the project creator to highlight official and verified lists.</span>",
         visitsSince: "Total visits since creation:", editScoreTitle: "Edit Score", editScoreMsg: "Enter new score:", duplicateBtn: "Duplicate", duplicateConfirmTitle: "Duplicate List", duplicateConfirmMsg: "Are you sure you want to create a copy of this list?", invalidNum: "Invalid number!",
-        defaultPass: "Default password", rememberMe: "Remember me", defPassDesc: "Default password is automatically applied to all boards", defPassMismatch: "Default password doesn't match."
+        defaultPass: "Default password", rememberMe: "Remember me", defPassDesc: "Default password is automatically applied to all boards", defPassMismatch: "Default password doesn't match.",
+        editNameTitle: "Edit Name", editNameMsg: "Enter new name:"
       },
       ru: {
         appTitle: "📋 Система Списков", searchPlaceholder: "🔍 Поиск списка...", createListBtn: "Создать новый список", backBtn: "Назад", pass: "Введите пароль", spectateMode: "👁️ Наблюдение", madeBy: "Разработчик:", controlMode: "⚙️ Управление",
@@ -632,7 +633,8 @@ html.dark .settings-submenu {
         infoTitle: "Как использовать", infoText: "1. Создайте список, придумав пароль.\n2. Поделитесь ссылкой, чтобы другие могли наблюдать.\n3. Войдите в режим 'Управление' по паролю, чтобы добавлять участников и менять баллы.", createYours: "Создать свой список!",
         tagInfo: "✨ Знак Отличия<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Выдается создателем проекта для выделения официальных и проверенных списков.</span>",
         visitsSince: "Всего посещений с момента создания:", editScoreTitle: "Изменить балл", editScoreMsg: "Введите новый балл:", duplicateBtn: "Дублировать", duplicateConfirmTitle: "Дублировать список", duplicateConfirmMsg: "Вы уверены, что хотите создать копию этого списка?", invalidNum: "Неверное число!",
-        defaultPass: "Стандартный пароль", rememberMe: "Запомнить меня", defPassDesc: "Стандартный пароль автоматически применяется ко всем спискам", defPassMismatch: "Стандартный пароль не подходит."
+        defaultPass: "Стандартный пароль", rememberMe: "Запомнить меня", defPassDesc: "Стандартный пароль автоматически применяется ко всем спискам", defPassMismatch: "Стандартный пароль не подходит.",
+        editNameTitle: "Изменить имя", editNameMsg: "Введите новое имя:"
       },
       uz: {
         appTitle: "📋 Ro'yxatlar tizimi", searchPlaceholder: "🔍 Qidirish...", createListBtn: "Yangi ro'yxat yaratish", backBtn: "Orqaga", pass: "Parolni kiriting", spectateMode: "👁️ Kuzatish", madeBy: "Muallif:", controlMode: "⚙️ Boshqaruv",
@@ -645,7 +647,8 @@ html.dark .settings-submenu {
         infoTitle: "Qanday ishlatiladi", infoText: "1. Parol o'ylab topib, ro'yxat yarating.\n2. Boshqalar kuzatishi uchun havolani ulashing.\n3. Ishtirokchilar va ballarni o'zgartirish uchun parol orqali 'Boshqarish' rejimiga kiring.", createYours: "O'z ro'yxatingizni yarating!",
         tagInfo: "✨ Nishon Belgisi<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Loyiha yaratuvchisi tomonidan rasmiy va tasdiqlangan ro'yxatlarni ajratib ko'rsatish uchun beriladi.</span>",
         visitsSince: "Yaratilgandan beri jami tashriflar:", editScoreTitle: "Ballni o'zgartirish", editScoreMsg: "Yangi ballni kiriting:", duplicateBtn: "Nusxalash", duplicateConfirmTitle: "Nusxa olish", duplicateConfirmMsg: "Ushbu ro'yxatdan nusxa olishga ishonchingiz komilmi?", invalidNum: "Noto'g'ri raqam!",
-        defaultPass: "Standart parol", rememberMe: "Eslab qolish", defPassDesc: "Standart parol barcha ro'yxatlarga avtomatik tarzda qo'llaniladi", defPassMismatch: "Standart parol mos kelmadi."
+        defaultPass: "Standart parol", rememberMe: "Eslab qolish", defPassDesc: "Standart parol barcha ro'yxatlarga avtomatik tarzda qo'llaniladi", defPassMismatch: "Standart parol mos kelmadi.",
+        editNameTitle: "Ismni o'zgartirish", editNameMsg: "Yangi ismni kiriting:"
       }
     };
 
@@ -1088,6 +1091,15 @@ html.dark .settings-submenu {
         uiPrompt(t().subtit, t().editSubMsg, allBoards[currentBoardId].settings.subtitle, (newSub) => update(ref(db, `boards/${currentBoardId}/settings`), { subtitle: newSub }));
     };
 
+    window.editNamePrompt = function(id) {
+      if (!isControlMode) return;
+      const currentName = currentBoardItems[id]?.name || '';
+      uiPrompt(t().editNameTitle, t().editNameMsg, currentName, (newName) => {
+        if (!newName) return uiAlert(t().warning, t().nameReq);
+        update(ref(db, `boards/${currentBoardId}/items/${id}`), { name: newName });
+      });
+    };
+
     window.editScorePrompt = function(id, currentScore) {
       if (!isControlMode) return;
       uiPrompt(t().editScoreTitle, t().editScoreMsg, currentScore, (newScoreStr) => {
@@ -1134,10 +1146,13 @@ html.dark .settings-submenu {
         const el = document.createElement('div');
         let rankClass = currentRank === 1 ? "rank-gold" : (currentRank === 2 ? "rank-silver" : (currentRank === 3 ? "rank-bronze" : "")); el.className = `row-item glass-card ${rankClass}`;
         
-        let controlsHtml = ""; let scoreHtml = `<div id="score-${id}" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;">${currentDisplayedScore}</div>`;
+        let controlsHtml = "";
+        let scoreHtml = `<div id="score-${id}" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;">${currentDisplayedScore}</div>`;
+        let nameHtml = `<div style="font-weight:700; color: var(--board-title-color); transition: color 0.6s;">${item.name}</div>`;
 
         if(isControlMode) {
-          scoreHtml = `<div id="score-${id}" class="editable-text" title="Edit Score" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;" onclick="editScorePrompt('${id}', ${item.score || 0})">${currentDisplayedScore}</div>`;
+          nameHtml = `<div class="editable-text" title="${t().editNameTitle}" style="font-weight:700; color: var(--board-title-color); transition: color 0.6s;" onclick="editNamePrompt('${id}')">${item.name}</div>`;
+          scoreHtml = `<div id="score-${id}" class="editable-text" title="${t().editScoreTitle}" style="font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--board-title-color); transition: color 0.6s;" onclick="editScorePrompt('${id}', ${item.score || 0})">${currentDisplayedScore}</div>`;
           controlsHtml = `<div class="hover-controls" style="flex-direction: column;"><div class="score-btns"><button class="btn-minus" onclick="changeScore('${id}', -2)">-2</button><button class="btn-minus" onclick="changeScore('${id}', -1)">-1</button><button class="btn-minus" onclick="changeScore('${id}', -0.5)">-0.5</button><button class="btn-plus" onclick="changeScore('${id}', 0.5)">+0.5</button><button class="btn-plus" onclick="changeScore('${id}', 1)">+1</button><button class="btn-plus" onclick="changeScore('${id}', 2)">+2</button></div><button class="btn-del" onclick="deleteItem('${id}')">${t().deleteBtn}</button></div>`;
         }
 
@@ -1151,7 +1166,7 @@ html.dark .settings-submenu {
 
         const rankIcon = currentRank === 1 ? "🏆" : (currentRank === 2 ? "🥈" : (currentRank === 3 ? "🥉" : currentRank));
 
-        el.innerHTML = `<div class="player-info"><div style="display:flex; align-items:center; gap:14px; font-size:18px;"><span style="font-weight:800; font-size: 22px; width: 30px; text-align: center;">${rankIcon}</span><div><div style="font-weight:700; color: var(--board-title-color); transition: color 0.6s;">${item.name}</div>${extraHtml}</div></div>${scoreHtml}</div>${controlsHtml}`;
+        el.innerHTML = `<div class="player-info"><div style="display:flex; align-items:center; gap:14px; font-size:18px;"><span style="font-weight:800; font-size: 22px; width: 30px; text-align: center;">${rankIcon}</span><div>${nameHtml}${extraHtml}</div></div>${scoreHtml}</div>${controlsHtml}`;
         container.appendChild(el);
       });
       applyGlassEffects();
