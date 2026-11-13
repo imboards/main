@@ -170,19 +170,91 @@
       text-shadow: 0 0 30px rgba(168, 85, 247, 0.2); position: relative; transition: background 0.6s;
     }
 
-    .form-grid { display: grid; gap: 3px; margin-bottom: 24px; }
+    .form-grid { display: grid; gap: 6px; margin-bottom: 24px; }
     .add-board-form { grid-template-columns: 1fr 1fr; }
-    .add-item-form { grid-template-columns: 1fr 1fr 0.8fr 0.8fr; }
+    .add-item-form { grid-template-columns: 1fr 1.2fr 0.7fr 0.8fr; align-items: center; }
+    
+    /* Палитра выбора цвета */
+    .extra-input-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .extra-input-group input[type="text"] {
+      padding-right: 46px;
+    }
+    .color-picker-wrap {
+      position: absolute;
+      right: 8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .color-picker-wrap:hover {
+      transform: scale(1.1);
+      border-color: var(--accent);
+    }
+    .color-picker-wrap input[type="color"] {
+      position: absolute;
+      width: 160%;
+      height: 160%;
+      padding: 0;
+      margin: 0;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+    }
+    .color-picker-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    .color-picker-wrap input[type="color"]::-webkit-color-swatch { border: none; }
+
+    /* Редактирование дополнительной информации (карандаш при наведении) */
+    .extra-editable-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .extra-edit-btn {
+      opacity: 0;
+      transform: translateX(-4px);
+      pointer-events: none;
+      background: transparent;
+      border: none;
+      padding: 2px 5px;
+      font-size: 12px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .row-item:hover .extra-edit-btn,
+    .extra-editable-container:hover .extra-edit-btn {
+      opacity: 0.9;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .extra-edit-btn:hover {
+      transform: scale(1.2) !important;
+      opacity: 1 !important;
+    }
     
     .btn-copy { background: var(--btn-copy-bg); color: var(--btn-copy-color); border: 1px solid var(--btn-copy-border); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
     .btn-copy:hover { background: var(--row-hover); color: var(--accent); border-color: var(--accent); }
 
-    input {
+    input[type="text"], input[type="password"], input[type="number"] {
       width: 100%; padding: 14px 16px; border-radius: 100px; border: 2px solid rgba(0, 0, 0, 0.05); outline: none; text-align: center;
       background: var(--input-bg); color: var(--input-color); font-size: 16px; font-family: inherit; transition: all 0.4s ease;
     }
-    html.dark input { border-color: rgba(255, 255, 255, 0.1); }
-    input:focus { border-color: var(--accent); background: var(--row-hover); box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2), 0 0 20px rgba(168, 85, 247, 0.15); transform: translateY(-2px); }
+    html.dark input[type="text"], html.dark input[type="password"], html.dark input[type="number"] { border-color: rgba(255, 255, 255, 0.1); }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus { border-color: var(--accent); background: var(--row-hover); box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.2), 0 0 20px rgba(168, 85, 247, 0.15); transform: translateY(-2px); }
 
     button { padding: 14px; border: none; border-radius: 100px; cursor: pointer; font-weight: 700; font-size: 15px; font-family: inherit; transition: all 0.3s ease; }
     button:active { transform: scale(0.95); }
@@ -269,7 +341,6 @@
     html.dark .settings-submenu {
       background: rgba(30, 41, 59, 0.98);
     }
-    /* pseudo-element to bridge the gap and keep hover active */
     .settings-submenu::before {
       content: ""; position: absolute; top: 0; left: -15px; width: 15px; height: 100%;
     }
@@ -489,6 +560,24 @@
     </div>
   </div>
 
+  <!-- Модальное окно редактирования дополнительной информации и цвета -->
+  <div id="editExtraModal" class="modal">
+    <div class="modal-box glass-card">
+      <h3 id="editExtraModalTitle">Edit Extra Info</h3>
+      <p id="editExtraModalMsg">Enter text and choose badge color:</p>
+      <div class="extra-input-group" style="margin-bottom: 15px;">
+        <input type="text" id="editExtraInput" placeholder="Extra Field">
+        <label class="color-picker-wrap" title="Choose Color">
+          <input type="color" id="editExtraColor" value="#a855f7">
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button id="editExtraCancelBtn" class="btn-cancel" style="flex:1;">Cancel</button>
+        <button id="editExtraSaveBtn" class="btn-add" style="flex:1;">Save</button>
+      </div>
+    </div>
+  </div>
+
   <div id="authModal" class="modal">
     <div class="modal-box glass-card">
       <h3 id="authTitle">Control Panel</h3>
@@ -508,8 +597,8 @@
       <div class="form-reveal-container" tabindex="0">
         <div class="reveal-content">
           <div class="form-grid add-board-form" style="margin-bottom: 0;">
-            <input id="newBoardTitle" placeholder="Title">
-            <input id="newBoardSubtitle" placeholder="Subtitle">
+            <input id="newBoardTitle" type="text" placeholder="Title">
+            <input id="newBoardSubtitle" type="text" placeholder="Subtitle">
             <input id="newBoardPass" type="password" placeholder="Password">
             <button id="addBoardBtn" class="btn-add">Create New List</button>
           </div>
@@ -546,8 +635,13 @@
         <div class="form-reveal-container" tabindex="0" style="margin: 20px auto;">
           <div class="reveal-content">
             <div class="form-grid add-item-form" style="margin-bottom: 0;">
-              <input id="newItemName" placeholder="Name">
-              <input id="newItemExtra" placeholder="Extra Field">
+              <input id="newItemName" type="text" placeholder="Name">
+              <div class="extra-input-group">
+                <input id="newItemExtra" type="text" placeholder="Extra Field">
+                <label class="color-picker-wrap" title="Choose Color">
+                  <input type="color" id="newItemExtraColor" value="#a855f7">
+                </label>
+              </div>
               <input id="newItemScore" type="number" placeholder="Score">
               <button id="addItemBtn" class="btn-add">Add</button>
             </div>
@@ -620,7 +714,8 @@
         tagInfo: "✨ Mark of Distinction<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Issued by the project creator to highlight official and verified lists.</span>",
         visitsSince: "Total visits since creation:", editScoreTitle: "Edit Score", editScoreMsg: "Enter new score:", duplicateBtn: "Duplicate", duplicateConfirmTitle: "Duplicate List", duplicateConfirmMsg: "Are you sure you want to create a copy of this list?", invalidNum: "Invalid number!",
         defaultPass: "Default password", rememberMe: "Remember me", defPassDesc: "Default password is automatically applied to all boards", defPassMismatch: "Default password doesn't match.",
-        editNameTitle: "Edit Name", editNameMsg: "Enter new name:"
+        editNameTitle: "Edit Name", editNameMsg: "Enter new name:",
+        editExtraTitle: "Edit Extra Info", editExtraMsg: "Enter extra info and pick a badge color:"
       },
       ru: {
         appTitle: "📋 Система Списков", searchPlaceholder: "🔍 Поиск списка...", createListBtn: "Создать новый список", backBtn: "Назад", pass: "Введите пароль", spectateMode: "👁️ Наблюдение", madeBy: "Разработчик:", controlMode: "⚙️ Управление",
@@ -634,7 +729,8 @@
         tagInfo: "✨ Знак Отличия<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Выдается создателем проекта для выделения официальных и проверенных списков.</span>",
         visitsSince: "Всего посещений с момента создания:", editScoreTitle: "Изменить балл", editScoreMsg: "Введите новый балл:", duplicateBtn: "Дублировать", duplicateConfirmTitle: "Дублировать список", duplicateConfirmMsg: "Вы уверены, что хотите создать копию этого списка?", invalidNum: "Неверное число!",
         defaultPass: "Стандартный пароль", rememberMe: "Запомнить меня", defPassDesc: "Стандартный пароль автоматически применяется ко всем спискам", defPassMismatch: "Стандартный пароль не подходит.",
-        editNameTitle: "Изменить имя", editNameMsg: "Введите новое имя:"
+        editNameTitle: "Изменить имя", editNameMsg: "Введите новое имя:",
+        editExtraTitle: "Изменить доп. информацию", editExtraMsg: "Введите текст и выберите цвет таблетки:"
       },
       uz: {
         appTitle: "📋 Ro'yxatlar tizimi", searchPlaceholder: "🔍 Qidirish...", createListBtn: "Yangi ro'yxat yaratish", backBtn: "Orqaga", pass: "Parolni kiriting", spectateMode: "👁️ Kuzatish", madeBy: "Muallif:", controlMode: "⚙️ Boshqaruv",
@@ -648,7 +744,8 @@
         tagInfo: "✨ Nishon Belgisi<br><span style='font-weight:400; font-size:12px; color:#cbd5e1; display:block; margin-top:4px;'>Loyiha yaratuvchisi tomonidan rasmiy va tasdiqlangan ro'yxatlarni ajratib ko'rsatish uchun beriladi.</span>",
         visitsSince: "Yaratilgandan beri jami tashriflar:", editScoreTitle: "Ballni o'zgartirish", editScoreMsg: "Yangi ballni kiriting:", duplicateBtn: "Nusxalash", duplicateConfirmTitle: "Nusxa olish", duplicateConfirmMsg: "Ushbu ro'yxatdan nusxa olishga ishonchingiz komilmi?", invalidNum: "Noto'g'ri raqam!",
         defaultPass: "Standart parol", rememberMe: "Eslab qolish", defPassDesc: "Standart parol barcha ro'yxatlarga avtomatik tarzda qo'llaniladi", defPassMismatch: "Standart parol mos kelmadi.",
-        editNameTitle: "Ismni o'zgartirish", editNameMsg: "Yangi ismni kiriting:"
+        editNameTitle: "Ismni o'zgartirish", editNameMsg: "Yangi ismni kiriting:",
+        editExtraTitle: "Qo'shimcha ma'lumotni tahrirlash", editExtraMsg: "Matn kiriting va rangni tanlang:"
       }
     };
 
@@ -698,6 +795,9 @@
       document.getElementById('confirmYesBtn').innerText = t().confirm;
       document.getElementById('promptCancelBtn').innerText = t().cancel;
       document.getElementById('promptSaveBtn').innerText = t().save;
+      document.getElementById('editExtraCancelBtn').innerText = t().cancel;
+      document.getElementById('editExtraSaveBtn').innerText = t().save;
+      document.getElementById('editExtraInput').placeholder = t().phExtra;
       document.getElementById('authCancel').innerText = t().cancel;
       document.getElementById('authEnter').innerText = t().enter;
       document.getElementById('blockOverlayTitle').innerText = t().blockedTitle;
@@ -1111,6 +1211,35 @@
       });
     };
 
+    // Модальное окно для изменения дополнительной информации и цвета
+    window.editExtraModalOpen = function(id) {
+      if (!isControlMode) return;
+      const item = currentBoardItems[id] || {};
+      const modal = document.getElementById('editExtraModal');
+      const input = document.getElementById('editExtraInput');
+      const colorInput = document.getElementById('editExtraColor');
+
+      document.getElementById('editExtraModalTitle').innerText = t().editExtraTitle;
+      document.getElementById('editExtraModalMsg').innerText = t().editExtraMsg;
+      input.value = item.extra || '';
+      colorInput.value = item.extraColor || '#a855f7';
+
+      modal.classList.add('show');
+      input.focus();
+      setTimeout(() => input.select(), 10);
+
+      document.getElementById('editExtraCancelBtn').onclick = () => modal.classList.remove('show');
+      document.getElementById('editExtraSaveBtn').onclick = () => {
+        modal.classList.remove('show');
+        const newExtra = input.value.trim();
+        const newColor = colorInput.value;
+        update(ref(db, `boards/${currentBoardId}/items/${id}`), {
+          extra: newExtra,
+          extraColor: newExtra ? newColor : null
+        });
+      };
+    };
+
     document.getElementById('duplicateBoardBtn').onclick = () => {
       if (!isControlMode) return;
       uiConfirm(t().duplicateConfirmTitle, t().duplicateConfirmMsg, () => {
@@ -1156,17 +1285,35 @@
           controlsHtml = `<div class="hover-controls" style="flex-direction: column;"><div class="score-btns"><button class="btn-minus" onclick="changeScore('${id}', -2)">-2</button><button class="btn-minus" onclick="changeScore('${id}', -1)">-1</button><button class="btn-minus" onclick="changeScore('${id}', -0.5)">-0.5</button><button class="btn-plus" onclick="changeScore('${id}', 0.5)">+0.5</button><button class="btn-plus" onclick="changeScore('${id}', 1)">+1</button><button class="btn-plus" onclick="changeScore('${id}', 2)">+2</button></div><button class="btn-del" onclick="deleteItem('${id}')">${t().deleteBtn}</button></div>`;
         }
 
+        // Отрисовка таблетки с выбранным цветом + карандаш в Control Mode (расположение под именем)
         let extraHtml = '';
-        if (item.extra) {
-            const extraLower = item.extra.toLowerCase(); let borderColor = '';
-            if (extraLower.includes('green')) borderColor = '#22c55e'; else if (extraLower.includes('red')) borderColor = '#ef4444'; else if (extraLower.includes('yellow')) borderColor = '#eab308'; else if (extraLower.includes('blue')) borderColor = '#3b82f6';
-            if (borderColor) { extraHtml = `<div class="attr-wrapper" style="margin-top: 4px; pointer-events: none;"><span class="attr-badge" style="--tag-color: ${borderColor}; font-size: 10px; padding: 2px 8px;"><span>${item.extra}</span></span></div>`; } 
-            else { extraHtml = `<div style="font-size:13px; color:var(--muted); margin-top:2px;">${item.extra}</div>`; }
+        if (item.extra || isControlMode) {
+          let badgeHtml = '';
+          if (item.extra) {
+            let badgeColor = item.extraColor || '';
+            if (!badgeColor) {
+              const extraLower = item.extra.toLowerCase();
+              if (extraLower.includes('green')) badgeColor = '#22c55e';
+              else if (extraLower.includes('red')) badgeColor = '#ef4444';
+              else if (extraLower.includes('yellow')) badgeColor = '#eab308';
+              else if (extraLower.includes('blue')) badgeColor = '#3b82f6';
+              else badgeColor = '#a855f7';
+            }
+            badgeHtml = `<div class="attr-wrapper" tabindex="0"><span class="attr-badge" style="--tag-color: ${badgeColor}; font-size: 10px; padding: 2px 9px;"><span>${item.extra}</span></span></div>`;
+          }
+
+          if (isControlMode) {
+            const editBtnHtml = `<button class="extra-edit-btn" title="${t().editExtraTitle}" onclick="editExtraModalOpen('${id}')"><i class="fa-solid fa-pen"></i></button>`;
+            extraHtml = `<div class="extra-editable-container">${badgeHtml}${editBtnHtml}</div>`;
+          } else if (badgeHtml) {
+            extraHtml = `<div style="margin-top: 4px;">${badgeHtml}</div>`;
+          }
         }
 
         const rankIcon = currentRank === 1 ? "🏆" : (currentRank === 2 ? "🥈" : (currentRank === 3 ? "🥉" : currentRank));
 
-        el.innerHTML = `<div class="player-info"><div style="display:flex; align-items:center; gap:14px; font-size:18px;"><span style="font-weight:800; font-size: 22px; width: 30px; text-align: center;">${rankIcon}</span><div>${nameHtml}${extraHtml}</div></div>${scoreHtml}</div>${controlsHtml}`;
+        // Обертка имени и доп. информации в flex-direction: column для расположения под именем
+        el.innerHTML = `<div class="player-info"><div style="display:flex; align-items:center; gap:14px; font-size:18px;"><span style="font-weight:800; font-size: 22px; width: 30px; text-align: center;">${rankIcon}</span><div style="display: flex; flex-direction: column; align-items: flex-start;">${nameHtml}${extraHtml}</div></div>${scoreHtml}</div>${controlsHtml}`;
         container.appendChild(el);
       });
       applyGlassEffects();
@@ -1194,9 +1341,24 @@
     };
 
     document.getElementById('addItemBtn').onclick = () => {
-      const n = document.getElementById('newItemName'), e = document.getElementById('newItemExtra'), s = document.getElementById('newItemScore');
+      const n = document.getElementById('newItemName');
+      const e = document.getElementById('newItemExtra');
+      const c = document.getElementById('newItemExtraColor');
+      const s = document.getElementById('newItemScore');
       if (!n.value.trim()) return uiAlert(t().warning, t().nameReq);
-      push(ref(db, `boards/${currentBoardId}/items`), { name: n.value.trim(), extra: e.value.trim(), score: Number(s.value || 0) }); n.value = ""; e.value = ""; s.value = ""; n.focus();
+      
+      const extraVal = e.value.trim();
+      const itemData = { 
+        name: n.value.trim(), 
+        extra: extraVal, 
+        score: Number(s.value || 0) 
+      };
+      if (extraVal) {
+        itemData.extraColor = c.value;
+      }
+      
+      push(ref(db, `boards/${currentBoardId}/items`), itemData); 
+      n.value = ""; e.value = ""; s.value = ""; n.focus();
     };
 
     function applyGlassEffects() {
